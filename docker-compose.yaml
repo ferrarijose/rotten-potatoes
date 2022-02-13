@@ -1,0 +1,38 @@
+version: "3.7"
+
+networks:
+  rotten-net:
+    driver: bridge
+
+services:
+  rotten-potatoes:
+    restart: always
+    image: ferrarijose/rotten-potatoes:${TAG_ROTTEN}
+    ports:
+      - 5000:5000
+    networks:
+      - rotten-net
+    depends_on:
+      - mongo_db
+    environment:
+      MONGODB_DB: ${MONGODB_DB}
+      MONGODB_HOST: ${MONGODB_HOST}
+      MONGODB_PORT: 27017
+      MONGODB_USERNAME: ${MONGODB_USERNAME}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+  
+  mongo_db:
+    restart: always
+    image: mongo:${TAG_MONGO}
+    ports:
+      - 27017:27017
+    networks:
+      - rotten-net
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    volumes:
+      - mongo_vol:/data/db 
+
+volumes: 
+  mongo_vol:
