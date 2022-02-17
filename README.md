@@ -9,49 +9,7 @@ Para criar a estrutura da nossa aplicação em containers para uso em ambiente d
 DOCKER COMPOSE
 No nosso arquivo docker compose, vamos iniciar informando a rede a ser criada para estabelecer a comunicação entre os containers da nossa solução.
 
-networks:
-  rotten-potatoes-net:
-    driver: bridge
-Para disponibilizar os containers necessários a nossa aplicação vamos criar dois serviços:
-
-version: "3.7"
-
-networks:
-  rotten-net:
-    driver: bridge
-
-services:
-  rotten-potatoes:
-    restart: always
-    image: ferrarijose/rotten-potatoes:${TAG_ROTTEN}
-    ports:
-      - 5000:5000
-    networks:
-      - rotten-net
-    depends_on:
-      - mongo_db
-    environment:
-      MONGODB_DB: ${MONGODB_DB}
-      MONGODB_HOST: ${MONGODB_HOST}
-      MONGODB_PORT: 27017
-      MONGODB_USERNAME: ${MONGODB_USERNAME}
-      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
-  
-  mongo_db:
-    restart: always
-    image: mongo:${TAG_MONGO}
-    ports:
-      - 27017:27017
-    networks:
-      - rotten-net
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-    volumes:
-      - mongo_vol:/data/db 
-
-volumes: 
-  mongo_vol:
+![image](https://user-images.githubusercontent.com/96360563/154437998-9c169fc6-31f8-43b3-8274-df7a3c0f0f53.png)
 
 
 No serviço rotten-potatoes vamos usar uma imagem que está disponível no meu repositório no Docker Hub.
